@@ -1,0 +1,26 @@
+[package]
+name = "stm32f1xx"
+version = "0.1.0"
+authors = ["iostapyshyn"]
+edition = "2018"
+
+[profile.release]
+# optimize for size ('z' would optimize even more)
+opt-level = 's'
+# link with link time optimization (lto).
+lto = true
+# enable debugging in release mode.
+debug = true
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+pzem004t = {path = "../../"}
+stm32f1xx-hal = {version = "0.5.3", features = ["stm32f103", "rt", "medium"]}
+embedded-hal = "0.2.3"
+cortex-m = "0.6.0"
+cortex-m-semihosting = "0.3.3"
+cortex-m-rt = "0.6.10"
+nb = "0.1.2"
+# Panic behaviour, see https://crates.io/keywords/panic-impl for alternatives
+panic-halt = "0.2.0"
