@@ -5,7 +5,10 @@ extern crate embedded_hal as hal;
 #[macro_use(block)]
 extern crate nb;
 
-mod util;
+mod io;
+mod no_timeout;
+
+pub use no_timeout::NoTimeout;
 
 use core::fmt::Display;
 use core::fmt::Formatter;
@@ -108,9 +111,9 @@ impl<Uart, WriteError, ReadError> Pzem<Uart>
 where
     Uart: serial::Write<u8, Error = WriteError>
         + serial::Read<u8, Error = ReadError>
-        + util::WriteBlocking<Error = WriteError>
-        + util::ReadBlocking<Error = ReadError>
-        + util::Drain<Error = ReadError>,
+        + io::WriteBlocking<Error = WriteError>
+        + io::ReadBlocking<Error = ReadError>
+        + io::Drain<Error = ReadError>,
 {
     pub fn new(uart: Uart, addr: Option<u8>) -> Result<Self, Error<WriteError, ReadError>> {
         let addr = addr.unwrap_or(ADDR_DEFAULT);
