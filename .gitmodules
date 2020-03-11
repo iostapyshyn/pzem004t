@@ -1,0 +1,3 @@
+[submodule "examples/pzem-cli"]
+	path = examples/pzem-cli
+	url = https://github.com/iostapyshyn/pzem-cli.git
