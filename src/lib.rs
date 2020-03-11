@@ -56,7 +56,7 @@ impl<WriteError: Display, ReadError: Display> Display for Error<WriteError, Read
 // 16-bit cyclic redundancy check (CRC).
 fn crc_write(buf: &mut [u8]) {
     let n = buf.len();
-    let crc = crc16::State::<crc16::MODBUS>::calculate(&mut buf[0..n - 2]);
+    let crc = u16::to_be(crc16::State::<crc16::MODBUS>::calculate(&mut buf[0..n - 2]));
 
     buf[n - 2] = (crc >> 8) as u8;
     buf[n - 1] = (crc >> 0) as u8;
@@ -64,7 +64,7 @@ fn crc_write(buf: &mut [u8]) {
 
 fn crc_check(buf: &[u8]) -> bool {
     let n = buf.len();
-    let crc = crc16::State::<crc16::MODBUS>::calculate(&buf[0..n - 2]);
+    let crc = u16::from_be(crc16::State::<crc16::MODBUS>::calculate(&buf[0..n - 2]));
 
     (crc >> 8) as u8 == buf[n - 2] && crc as u8 == buf[n - 1]
 }
