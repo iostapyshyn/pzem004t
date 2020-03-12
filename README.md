@@ -1,13 +1,7 @@
 # pzem004t
 An embedded-hal driver for the PZEM004T Energy Monitor.
 
-The driver must be initialized by passing a Serial interface peripheral
-to the [`Pzem::new`](struct.Pzem.html#method.new)
-function, which in turn will create a driver instance, with the slave address specified,
-or the default general address for a single-slave environment `0xf8`.
-
 ## Examples
-
 Examples can be found in the [`examples/`](https://github.com/iostapyshyn/pzem004t/tree/master/examples) directory.
 
 ### Read the measurements off the sensor every second
