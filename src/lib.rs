@@ -1,13 +1,48 @@
+//! An embedded-hal driver for the PZEM004T Energy Monitor.
+//!
+//! The driver must be initialized by passing a Serial interface peripheral
+//! to the [`Pzem::new`](struct.Pzem.html#method.new)
+//! function, which in turn will create a driver instance, with the slave address specified,
+//! or the default general address for a single-slave environment `0xf8`.
+//!
+//! # Examples
+//!
+//! Examples can be found in the [`examples/`](https://github.com/iostapyshyn/pzem004t/tree/master/examples) directory.
+//!
+//! ## Read the measurements off the sensor every second
+//!
+//!     let mut pzem = pzem004t::Pzem::new(serial, None).unwrap();
+//!     let mut m = pzem004t::Measurement::default();
+//!     loop {
+//!         match pzem.read(&mut m, Some((&mut tim, TIMEOUT))) {
+//!             Err(e) => hprintln!("Could not read PZEM004T: {}", e).unwrap(),
+//!             Ok(()) => {
+//!                 hprintln!("Voltage: {:.1} V", m.voltage).unwrap();
+//!                 hprintln!("Current: {:.3} A", m.current).unwrap();
+//!                 hprintln!("Power: {:.1} W", m.power).unwrap();
+//!                 hprintln!("Energy: {:.3} kWh", m.energy).unwrap();
+//!                 hprintln!("Frequency: {:.1} Hz", m.frequency).unwrap();
+//!                 hprintln!("Power factor: {:.2}", m.pf).unwrap();
+//!                 hprintln!("Alarm: {}\n", m.alarm).unwrap();
+//!             }
+//!         }
+//!
+//!         tim.start(1.hz());
+//!         block!(tim.wait()).unwrap();
+//!     }
+
 #![no_std]
 
 extern crate crc16;
 extern crate embedded_hal as hal;
+
 #[macro_use(block)]
 extern crate nb;
 
 mod io;
-mod no_timeout;
+use io::*;
 
+mod no_timeout;
 pub use no_timeout::NoTimeout;
 
 use core::fmt::Display;
@@ -30,6 +65,7 @@ const PARAM_ADDR: u16 = 0x0002; // Modbus-RTU address
 
 const REG_COUNT: u16 = 10; // 10 registers in total
 
+/// Errors which can occur when attempting to communicate with PZEM004T sensor.
 #[derive(Debug, Clone)]
 pub enum Error<WriteError, ReadError> {
     TimedOut,
@@ -91,6 +127,7 @@ fn result_convert(buf: &[u8; 25], m: &mut Measurement) {
     m.alarm = (((buf[21] as u16) << 8) | ((buf[22] as u16) << 0)) != 0;
 }
 
+/// Measurement results stored as the 32-bit floating point variables.
 #[derive(Debug, Default, Copy, Clone)]
 pub struct Measurement {
     pub voltage: f32,
@@ -102,20 +139,23 @@ pub struct Measurement {
     pub alarm: bool,
 }
 
-pub struct Pzem<Uart> {
-    uart: Uart,
+/// Struct representing a PZEM004T sensor connected to a serial bus.
+pub struct Pzem<Serial> {
+    uart: Serial,
     addr: u8,
 }
 
-impl<Uart, WriteError, ReadError> Pzem<Uart>
+impl<Serial, WriteError, ReadError> Pzem<Serial>
 where
-    Uart: serial::Write<u8, Error = WriteError>
-        + serial::Read<u8, Error = ReadError>
-        + io::WriteBlocking<Error = WriteError>
-        + io::ReadBlocking<Error = ReadError>
-        + io::Drain<Error = ReadError>,
+    Serial: serial::Write<u8, Error = WriteError> + serial::Read<u8, Error = ReadError>,
 {
-    pub fn new(uart: Uart, addr: Option<u8>) -> Result<Self, Error<WriteError, ReadError>> {
+    /// Creates a new PZEM004T struct, consuming the serial peripheral.
+    ///
+    /// When omitting the `addr` argument, will use the default general address for a
+    /// single-slave environment, namely `0xf8`.
+    ///
+    /// Can return `Err(Error::IllegalAddress)` if `addr` is not in range of legal addresses `[0x01..0xf8]`.
+    pub fn new(uart: Serial, addr: Option<u8>) -> Result<Self, Error<WriteError, ReadError>> {
         let addr = addr.unwrap_or(ADDR_DEFAULT);
         if addr != ADDR_DEFAULT && (addr < ADDR_MIN || addr > ADDR_MAX) {
             return Err(Error::IllegalAddress);
@@ -166,6 +206,13 @@ where
         Ok(())
     }
 
+    /// Reads the measurements off the sensor and stores them into `m`.
+    ///
+    /// The timeout can be omitted (will wait indefinitely) in such a way:
+    ///
+    ///     pzem.communicate<NoTimeout>(&mut m, None).unwrap();
+    ///
+    /// Look [`NoTimeout`](struct.NoTimeout.html).
     pub fn read<T: timer::CountDown>(
         &mut self,
         m: &mut Measurement,
@@ -193,6 +240,9 @@ where
         Ok(())
     }
 
+    /// Reads the current power alarm threshold value of the energy monitor.
+    ///
+    /// In case of success, returns the raw `u16` value of the alarm threshold, where 1LSB corresponds to 1W.
     pub fn get_threshold<T: timer::CountDown>(
         &mut self,
         timeout: Option<(&mut T, T::Time)>,
@@ -216,6 +266,9 @@ where
         Ok(((resp[3] as u16) << 8) | ((resp[4] as u16) << 0))
     }
 
+    /// Reads the current Modbus-RTU address of the energy monitor.
+    ///
+    /// Returns the raw `u8` value of the address, or an error.
     pub fn get_addr<T: timer::CountDown>(
         &mut self,
         timeout: Option<(&mut T, T::Time)>,
@@ -239,6 +292,13 @@ where
         Ok(((resp[3] as u16) << 8) | ((resp[4] as u16) << 0))
     }
 
+    /// Sets the power alarm threshold value of the energy monitor.
+    ///
+    /// # Example
+    ///
+    ///     // Will set the alarm threshold to 230 W:
+    ///     pzem.set_threshold(230, Some(&mut ti, 2.hz())).unwrap();
+    ///
     pub fn set_threshold<T: timer::CountDown>(
         &mut self,
         threshold: u16,
@@ -263,6 +323,15 @@ where
         Ok(())
     }
 
+    /// Sets the Modbus-RTU address of the energy monitor.
+    ///
+    /// Also updates the [`Pzem`](struct.Pzem.html) struct to refer to the sensor by the new address.
+    ///
+    /// # Example
+    ///
+    ///     // Will set the slave address to 0x10:
+    ///     pzem.set_addr(0x10, Some(&mut tim, 2.hz())).unwrap();
+    ///
     pub fn set_addr<T: timer::CountDown>(
         &mut self,
         addr: u8,
@@ -289,9 +358,11 @@ where
         self.communicate(&buf, &mut resp, timeout)?;
 
         self.addr = addr;
+
         Ok(())
     }
 
+    /// Sets the energy counting register back to 0.
     pub fn reset_energy<T: timer::CountDown>(
         &mut self,
         timeout: Option<(&mut T, T::Time)>,
@@ -305,7 +376,8 @@ where
         Ok(())
     }
 
-    pub fn release(self) -> Uart {
+    /// Releases the underlying serial peripheral.
+    pub fn release(self) -> Serial {
         self.uart
     }
 }
