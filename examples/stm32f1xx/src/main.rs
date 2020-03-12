@@ -59,7 +59,7 @@ fn main() -> ! {
 
     loop {
         match pzem.read(&mut m, Some((&mut tim, TIMEOUT))) {
-            Err(e) => hprintln!("Could not read PZEM004T: {:?}", e).unwrap(),
+            Err(e) => hprintln!("Could not read PZEM004T: {}", e).unwrap(),
             Ok(()) => {
                 hprintln!("Voltage: {:.1} V", m.voltage).unwrap();
                 hprintln!("Current: {:.3} A", m.current).unwrap();
