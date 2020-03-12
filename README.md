@@ -1,4 +1,10 @@
-# pzem004t
+pzem004t
+====
+[![crates.io](https://img.shields.io/crates/v/pzem004t.svg)](https://crates.io/crates/clap)
+[![crates.io](https://img.shields.io/crates/d/pzem004t.svg)](https://crates.io/crates/pzem004t)
+[![docs.rs](https://docs.rs/pzem004t/badge.svg)](https://docs.rs/pzem004t/)
+[![license](http://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/iostapyshyn/pzem004t/blob/master/LICENSE.md)
+
 An embedded-hal driver for the PZEM004T Energy Monitor.
 
 ## Examples
