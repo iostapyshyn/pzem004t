@@ -1,6 +1,6 @@
 [package]
 name = "pzem004t"
-version = "0.1.6"
+version = "0.1.7"
 authors = ["iostapyshyn ilya.ostapyshyn@gmail.com"]
 license = "Apache-2.0 OR MIT"
 repository = "https://github.com/iostapyshyn/pzem004t"
