@@ -4,6 +4,7 @@ version = "0.1.4"
 authors = ["iostapyshyn ilya.ostapyshyn@gmail.com"]
 license = "MIT"
 repository = "https://github.com/iostapyshyn/pzem004t"
+documentation = "https://docs.rs/pzem004t"
 edition = "2018"
 readme = "README.md"
 description = """
