@@ -4,6 +4,7 @@ pzem004t
 [![docs.rs](https://docs.rs/pzem004t/badge.svg)](https://docs.rs/pzem004t/)
 [![license](http://img.shields.io/badge/license-MIT-blue.svg)](LICENSE-MIT)
 [![license](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE-APACHE)
+[![Rust](https://github.com/iostapyshyn/pzem004t/workflows/Rust/badge.svg)](https://github.com/iostapyshyn/pzem004t/actions?query=workflow%3ARust)
 
 An embedded-hal driver for the PZEM004T energy monitor.
 
