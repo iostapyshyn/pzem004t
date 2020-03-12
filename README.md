@@ -2,7 +2,8 @@ pzem004t
 ====
 [![crates.io](https://img.shields.io/crates/v/pzem004t.svg)](https://crates.io/crates/pzem004t)
 [![docs.rs](https://docs.rs/pzem004t/badge.svg)](https://docs.rs/pzem004t/)
-[![license](http://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/iostapyshyn/pzem004t/blob/master/LICENSE.md)
+[![license](http://img.shields.io/badge/license-MIT-blue.svg)](LICENSE-MIT)
+[![license](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE-APACHE)
 
 An embedded-hal driver for the PZEM004T energy monitor.
 
@@ -31,3 +32,21 @@ loop {
     block!(tim.wait()).unwrap();
 }
 ```
+
+## License
+
+This project is licensed under either of
+
+ * Apache License, Version 2.0, ([LICENSE-APACHE](LICENSE-APACHE) or
+   http://www.apache.org/licenses/LICENSE-2.0)
+ * MIT license ([LICENSE-MIT](LICENSE-MIT) or
+   http://opensource.org/licenses/MIT)
+
+at your option.
+
+
+### Contribution
+
+Unless you explicitly state otherwise, any contribution intentionally submitted
+for inclusion in hexi by you, as defined in the Apache-2.0 license, shall be
+dual licensed as above, without any additional terms or conditions.
