@@ -5,7 +5,7 @@ use hal::timer::CountDown;
 /// Empty struct to satisfy Rust's type requirements, when using `None` for the `timeout` parameter.
 /// # Example
 /// ```rust
-/// pzem.communicate<NoTimeout>(&mut m, None);
+/// pzem.communicate::<NoTimeout>(&mut m, None);
 /// ```
 ///
 /// Will panic with `unreachable!()` if used incorrectly to signalize a programmer error.

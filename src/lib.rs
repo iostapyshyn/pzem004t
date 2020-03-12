@@ -210,7 +210,7 @@ where
     ///
     /// The timeout can be omitted (will wait indefinitely) in such a way:
     ///
-    ///     pzem.communicate<NoTimeout>(&mut m, None).unwrap();
+    ///     pzem.communicate::<NoTimeout>(&mut m, None).unwrap();
     ///
     /// Look [`NoTimeout`](struct.NoTimeout.html).
     pub fn read<T: timer::CountDown>(

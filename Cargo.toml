@@ -8,6 +8,7 @@ documentation = "https://docs.rs/pzem004t"
 edition = "2018"
 readme = "README.md"
 exclude = [".DS_Store", ".gitignore", ".gitmodules"]
+keywords = ["embedded-hal", "embedded-hal-driver"]
 description = """
 An embedded-hal driver for the PZEM004T energy monitor.
 """
