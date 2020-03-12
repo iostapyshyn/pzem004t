@@ -7,6 +7,9 @@ pzem004t
 
 An embedded-hal driver for the PZEM004T energy monitor.
 
+A [CLI](https://github.com/iostapyshyn/pzem-cli) for the library is available and can be
+run on all major operating systems (uses [serialport](https://crates.io/crates/serialport) crate).
+
 ## Examples
 Examples can be found in the [`examples/`](https://github.com/iostapyshyn/pzem004t/tree/master/examples) directory.
 
