@@ -1,12 +1,13 @@
 [package]
 name = "pzem004t"
-version = "0.1.4"
+version = "0.1.5"
 authors = ["iostapyshyn ilya.ostapyshyn@gmail.com"]
 license = "MIT"
 repository = "https://github.com/iostapyshyn/pzem004t"
 documentation = "https://docs.rs/pzem004t"
 edition = "2018"
 readme = "README.md"
+exclude = [".DS_Store", ".gitignore", ".gitmodules"]
 description = """
 An embedded-hal driver for the PZEM004T Energy Monitor.
 """
