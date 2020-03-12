@@ -4,7 +4,7 @@ pzem004t
 [![docs.rs](https://docs.rs/pzem004t/badge.svg)](https://docs.rs/pzem004t/)
 [![license](http://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/iostapyshyn/pzem004t/blob/master/LICENSE.md)
 
-An embedded-hal driver for the PZEM004T Energy Monitor.
+An embedded-hal driver for the PZEM004T energy monitor.
 
 ## Examples
 Examples can be found in the [`examples/`](https://github.com/iostapyshyn/pzem004t/tree/master/examples) directory.
