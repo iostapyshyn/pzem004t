@@ -1,15 +1,15 @@
 [package]
 name = "pzem004t"
-version = "0.1.5"
+version = "0.1.6"
 authors = ["iostapyshyn ilya.ostapyshyn@gmail.com"]
-license = "MIT"
+license = "Apache-2.0 OR MIT"
 repository = "https://github.com/iostapyshyn/pzem004t"
 documentation = "https://docs.rs/pzem004t"
 edition = "2018"
 readme = "README.md"
 exclude = [".DS_Store", ".gitignore", ".gitmodules"]
 description = """
-An embedded-hal driver for the PZEM004T Energy Monitor.
+An embedded-hal driver for the PZEM004T energy monitor.
 """
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html

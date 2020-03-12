@@ -1,4 +1,4 @@
-//! An embedded-hal driver for the PZEM004T Energy Monitor.
+//! An embedded-hal driver for the PZEM004T energy monitor.
 //!
 //! The driver must be initialized by passing a Serial interface peripheral
 //! to the [`Pzem::new`](struct.Pzem.html#method.new)
