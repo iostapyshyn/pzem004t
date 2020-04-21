@@ -15,15 +15,15 @@
 //!     let mut m = pzem004t::Measurement::default();
 //!     loop {
 //!         match pzem.read(&mut m, Some((&mut tim, TIMEOUT))) {
-//!             Err(e) => hprintln!("Could not read PZEM004T: {}", e).unwrap(),
+//!             Err(e) => println!("Could not read PZEM004T: {}", e);
 //!             Ok(()) => {
-//!                 hprintln!("Voltage: {:.1} V", m.voltage).unwrap();
-//!                 hprintln!("Current: {:.3} A", m.current).unwrap();
-//!                 hprintln!("Power: {:.1} W", m.power).unwrap();
-//!                 hprintln!("Energy: {:.3} kWh", m.energy).unwrap();
-//!                 hprintln!("Frequency: {:.1} Hz", m.frequency).unwrap();
-//!                 hprintln!("Power factor: {:.2}", m.pf).unwrap();
-//!                 hprintln!("Alarm: {}\n", m.alarm).unwrap();
+//!                 println!("Voltage: {:.1} V", m.voltage);
+//!                 println!("Current: {:.3} A", m.current);
+//!                 println!("Power: {:.1} W", m.power);
+//!                 println!("Energy: {:.3} kWh", m.energy);
+//!                 println!("Frequency: {:.1} Hz", m.frequency);
+//!                 println!("Power factor: {:.2}", m.pf);
+//!                 println!("Alarm: {}\n", m.alarm);
 //!             }
 //!         }
 //!
